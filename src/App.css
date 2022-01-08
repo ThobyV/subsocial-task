@@ -1,0 +1,101 @@
+
+.center  {
+  text-align: center;
+}
+.s-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  width: 80%;
+  background: #fff;
+}
+
+.space-all {
+  padding: 2rem;
+}
+
+.space-x {
+  padding: 0 2rem;
+}
+
+.space-y {
+  padding: 2rem 0;
+}
+
+.space-b {
+  padding-bottom: 2rem;
+}
+
+.f-large {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-image {
+  width: 2rem;
+  height: 2rem;
+}
+
+.items > div {
+  padding-right: 1rem;
+}
+
+ul.list {
+  align-self: start;
+  list-style-type: none;
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-auto-rows: 20px;
+  grid-gap: 5px;
+  place-items: center;
+}
+
+.start {
+  margin-right: auto;
+}
+
+.item {
+  background: yellow;
+  text-align: center;
+  border: 1px solid red;
+  width: 100px;
+}
+
+span.btn {
+  border-radius: 5px;
+  padding: .4rem .7rem;
+  color: #fff;
+}
+
+.btn.connected {
+  background-color: #0f9b16;
+}
+
+.btn.disconnected {
+  background-color: #df3131;
+}
+
+span.spinner {
+  position: absolute;
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #000; /* Blue */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin .7s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
