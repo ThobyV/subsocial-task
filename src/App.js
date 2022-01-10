@@ -3,19 +3,33 @@ import { useEffect, useMemo, useState } from "react";
 
 const Spinner = () => <span className="spinner"></span>;
 
-const NetworkStatus = ({ network }) => {
+const NetworkStatus = ({ network, mock_api }) => {
   const [status, setStatus] = useState("pending");
   const status_url = "https://app.subsocial.network/subid/api/v1/check/";
 
   useEffect(() => {
     let delayId;
+    let delayIntervalTime;
+
     async function runFetch() {
-      fetch(`${status_url}/${network}`)
-        .then((data) => {
-          data = data ? "connected" : "disconnected";
-          setStatus(data);
-        })
-        .catch((e) => console.log(e));
+      const server = () => {
+        delayIntervalTime = 300000;
+
+        fetch(`${status_url}/${network}`)
+          .then((data) => {
+            data = data ? "connected" : "disconnected";
+            setStatus(data);
+          })
+          .catch((e) => console.log(e));
+      };
+
+      const mock = () => {
+        delayIntervalTime = 4000;
+        setStatus(Math.random() < 0.8 ? "connected" : "disconnected");
+      };
+
+      const status = () => (mock_api ? mock() : server());
+      status();
     }
 
     async function initialDelay() {
@@ -23,18 +37,19 @@ const NetworkStatus = ({ network }) => {
         setTimeout(() => resolve(), 2000);
       });
       delay.then(() => {
-        delayId = setInterval(() => runFetch(), 300000);
+        delayId = setInterval(() => runFetch(), delayIntervalTime);
       });
     }
+    clearInterval(delayId);
     runFetch();
     initialDelay();
     return () => clearInterval(delayId);
-  }, []);
+  }, [mock_api]);
 
   return <span className={` btn ${status}`}>{`${status}`}</span>;
 };
 
-const NetworkItem = ({ item }) => {
+const NetworkItem = ({ item, mock_api }) => {
   const image_url = "https://sub.id/images/";
   const { tokenSymbol = [] } = item;
   return (
@@ -49,7 +64,7 @@ const NetworkItem = ({ item }) => {
         </div>
       </div>
       <div>
-        <NetworkStatus network={item.network} />
+        <NetworkStatus network={item.network} mock_api={mock_api} />
       </div>
     </li>
   );
@@ -58,8 +73,11 @@ const NetworkItem = ({ item }) => {
 const App = () => {
   const [networks, setNetworks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [mockApi, setMockApi] = useState(false);
   const networks_url =
     "https://app.subsocial.network/subid/api/v1/chains/properties";
+
+  const toggleMockApi = () => setMockApi(!mockApi);
 
   const alphabeticalSort = useMemo(() => {
     return networks.sort((a, b) => {
@@ -98,10 +116,18 @@ const App = () => {
           </div>
         ) : (
           <div className="content">
-            <div className="space-all f-header-1">Networks</div>
+            <div className="flex">
+              <div className="space-all f-header-1">Networks</div>
+              <div className="space-all f-header-1">
+                <button
+                  className="btn"
+                  onClick={toggleMockApi}
+                >{`mock network status: ${mockApi ? "on" : "off"}`}</button>
+              </div>
+            </div>
             <ul className="list flex rows">
               {alphabeticalSort.map((n) => (
-                <NetworkItem item={n} />
+                <NetworkItem item={n} mock_api={mockApi} />
               ))}
             </ul>
           </div>

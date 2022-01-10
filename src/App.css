@@ -95,6 +95,24 @@ ul.list {
   width: 100px;
 }
 
+button.btn {
+  border-radius: 20px;
+  color: #264d89;
+  border: none;
+  font-size: x-small;
+  font-weight: 800;
+  text-transform: uppercase;
+  background-color: #e5efff;
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+}
+
+
+button.btn:hover {
+  background-color: #0a2d66;
+  color: #fff;
+}
+
 span.btn {
   border-radius: 10px;
   padding: 0.1rem 0.4rem;
