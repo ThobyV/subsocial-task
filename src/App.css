@@ -1,5 +1,4 @@
-
-.center  {
+.center {
   text-align: center;
 }
 .s-container {
@@ -9,7 +8,7 @@
 }
 
 .content {
-  width: 80%;
+  width: 90%;
   background: #fff;
 }
 
@@ -25,22 +24,47 @@
   padding: 2rem 0;
 }
 
+.space-t-1 {
+  padding-top: 0.25rem;
+}
+
 .space-b {
   padding-bottom: 2rem;
 }
 
-.f-large {
+.f-header-1 {
   font-size: 2.5rem;
   font-weight: bold;
+  color: #002658;
+}
+
+.f-title {
+  font-weight: bold;
+  color: #002658;
+}
+
+.f-subtitle {
+  text-transform: uppercase;
+  font-size: x-small;
+  color: #264d89;
 }
 
 .flex {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.flex-no-wrap {
   display: flex;
 }
 
 .flex-image {
   width: 2rem;
   height: 2rem;
+}
+
+.flex.rows > li {
+  width: 33%;
 }
 
 .items > div {
@@ -72,16 +96,22 @@ ul.list {
 }
 
 span.btn {
-  border-radius: 5px;
-  padding: .4rem .7rem;
-  color: #fff;
+  border-radius: 10px;
+  padding: 0.1rem 0.4rem;
+}
+
+.btn.pending {
+  color: #000;
+  background-color: #eee;
 }
 
 .btn.connected {
-  background-color: #0f9b16;
+  color: #fff;
+  background-color: #00b853;
 }
 
 .btn.disconnected {
+  color: #fff;
   background-color: #df3131;
 }
 
@@ -92,10 +122,25 @@ span.spinner {
   border-radius: 50%;
   width: 60px;
   height: 60px;
-  animation: spin .7s linear infinite;
+  animation: spin 0.7s linear infinite;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .flex {
+    display: flex;
+    flex-direction: column;
+  }
+  .grid-row {
+    grid-gap: 3rem;
+    grid-template-columns: minmax(0, 1fr) 300px;
+  }
 }

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 const Spinner = () => <span className="spinner"></span>;
 
 const NetworkStatus = ({ network }) => {
-  const [status, setStatus] = useState(false);
+  const [status, setStatus] = useState("pending");
   const status_url = "https://app.subsocial.network/subid/api/v1/check/";
 
   useEffect(() => {
@@ -12,6 +12,7 @@ const NetworkStatus = ({ network }) => {
     async function runFetch() {
       fetch(`${status_url}/${network}`)
         .then((data) => {
+          data = data ? "connected" : "disconnected";
           setStatus(data);
         })
         .catch((e) => console.log(e));
@@ -30,23 +31,22 @@ const NetworkStatus = ({ network }) => {
     return () => clearInterval(delayId);
   }, []);
 
-  return (
-    <span className={` btn ${status ? "connected" : "disconnected"}`}>
-      {`${status ? "connected" : "disconnected"}`}
-    </span>
-  );
+  return <span className={` btn ${status}`}>{`${status}`}</span>;
 };
 
 const NetworkItem = ({ item }) => {
   const image_url = "https://sub.id/images/";
-
+  const { tokenSymbol = [] } = item;
   return (
     <li className="grid-row space-b">
-      <div className="flex items start">
+      <div className="flex-no-wrap items start">
         <div>
           <img className="flex-image" src={`${image_url}/${item.icon}`} />
         </div>
-        <div>{item.network}</div>
+        <div>
+          <div className="f-title">{item.network}</div>
+          <div className="f-subtitle space-t-1">{tokenSymbol[0]}</div>
+        </div>
       </div>
       <div>
         <NetworkStatus network={item.network} />
@@ -98,12 +98,8 @@ const App = () => {
           </div>
         ) : (
           <div className="content">
-            <div className="space-all f-large">Networks</div>
-            <div className="space-x space-b grid-row">
-              <div>Network</div>
-              <div>Network status</div>
-            </div>
-            <ul className="list">
+            <div className="space-all f-header-1">Networks</div>
+            <ul className="list flex rows">
               {alphabeticalSort.map((n) => (
                 <NetworkItem item={n} />
               ))}
